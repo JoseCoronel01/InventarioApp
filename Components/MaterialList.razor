@@ -56,13 +56,13 @@
                             <td>@material.FechaActualizacion.ToString("g")</td>
                             <td>
                                 <button class="btn btn-sm btn-warning" @onclick="() => EditarMaterial(material)">
-                                    <span class="oi oi-pencil"></span>
+                                    <span class="oi oi-pencil">Editar</span>
                                 </button>
                                 <button class="btn btn-sm btn-info" @onclick="() => VerMovimientos(material.Id)">
-                                    <span class="oi oi-list"></span>
+                                    <span class="oi oi-list">Detalle</span>
                                 </button>
                                 <button class="btn btn-sm btn-danger" @onclick="() => ConfirmarEliminar(material)">
-                                    <span class="oi oi-trash"></span>
+                                    <span class="oi oi-trash">Eliminar</span>
                                 </button>
                             </td>
                         </tr>
