@@ -58,9 +58,6 @@
                                 <button class="btn btn-sm btn-warning" @onclick="() => EditarMaterial(material)">
                                     <span class="oi oi-pencil">Editar</span>
                                 </button>
-                                <button class="btn btn-sm btn-info" @onclick="() => VerMovimientos(material.Id)">
-                                    <span class="oi oi-list">Detalle</span>
-                                </button>
                                 <button class="btn btn-sm btn-danger" @onclick="() => ConfirmarEliminar(material)">
                                     <span class="oi oi-trash">Eliminar</span>
                                 </button>
@@ -172,11 +169,5 @@
     {
         mostrarConfirmacion = false;
         materialAEliminar = null;
-    }
-
-    private void VerMovimientos(int materialId)
-    {
-        // Navegar al componente de movimientos para este material
-        // Se implementa en la siguiente etapa
     }
 }
