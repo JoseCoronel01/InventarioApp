@@ -1,0 +1,79 @@
+﻿@page "/"
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="jumbotron mb-4">
+                <h1 class="display-4">Sistema de Inventario</h1>
+                <p class="lead">Gestión de Materiales y Movimientos de Inventario</p>
+                <hr class="my-4">
+                <p>Administra tu inventario de materiales, registra entradas y salidas, y mantén un control total de tu stock.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <span class="oi oi-box"></span> Gestión de Materiales
+                            </h5>
+                            <p class="card-text">
+                                Crea, edita y elimina materiales. Gestiona tipos, cantidades y precios de tu inventario.
+                            </p>
+                            <a href="/materiales" class="btn btn-primary">Ir a Materiales</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <span class="oi oi-action-redo"></span> Movimientos
+                            </h5>
+                            <p class="card-text">
+                                Registra entradas y salidas de materiales. Mantén un historial completo de transacciones.
+                            </p>
+                            <a href="/movimientos" class="btn btn-primary">Ir a Movimientos</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <h5 class="card-title">Características</h5>
+                            <ul>
+                                <li>✓ Almacenamiento de datos en JSON local</li>
+                                <li>✓ CRUD completo de materiales</li>
+                                <li>✓ Registro detallado de entradas y salidas</li>
+                                <li>✓ Control automático de cantidades y precios</li>
+                                <li>✓ Historial de todas las transacciones</li>
+                                <li>✓ Filtrado y búsqueda por material</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .jumbotron {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 3rem;
+    }
+
+    .card {
+        border: 1px solid #dee2e6;
+        transition: box-shadow 0.3s;
+    }
+
+    .card:hover {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+</style>

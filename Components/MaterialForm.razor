@@ -1,0 +1,79 @@
+@using InventarioApp.Models
+@using Microsoft.AspNetCore.Components.Forms
+
+<div class="card mb-4">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">@(Material.Id == 0 ? "Nuevo Material" : "Editar Material")</h5>
+    </div>
+    <div class="card-body">
+        <EditForm Model="Material" OnValidSubmit="GuardarMaterial">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <InputText id="nombre" class="form-control" @bind-Value="Material.Nombre" placeholder="Ej: Acero A36" />
+                    <ValidationMessage For="@(() => Material.Nombre)" />
+                </div>
+                <div class="col-md-6">
+                    <label for="tipo" class="form-label">Tipo</label>
+                    <InputText id="tipo" class="form-control" @bind-Value="Material.Tipo" placeholder="Ej: Acero, Aluminio, etc" />
+                    <ValidationMessage For="@(() => Material.Tipo)" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="cantidad" class="form-label">Cantidad</label>
+                    <InputNumber id="cantidad" class="form-control" @bind-Value="Material.Cantidad" />
+                    <ValidationMessage For="@(() => Material.Cantidad)" />
+                </div>
+                <div class="col-md-6">
+                    <label for="precio" class="form-label">Precio Unitario</label>
+                    <InputNumber id="precio" class="form-control" @bind-Value="Material.Precio" step="0.01" />
+                    <ValidationMessage For="@(() => Material.Precio)" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Total</label>
+                    <div class="form-control" style="background-color: #f8f9fa;">
+                        <strong>@Material.PrecioTotal.ToString("C")</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success">
+                    <span class="oi oi-check"></span> Guardar
+                </button>
+                <button type="button" class="btn btn-secondary" @onclick="Cancelar">
+                    <span class="oi oi-x"></span> Cancelar
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Material Material { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<Material> OnSave { get; set; }
+
+    [Parameter]
+    public EventCallback OnCancel { get; set; }
+
+    private async Task GuardarMaterial()
+    {
+        await OnSave.InvokeAsync(Material);
+    }
+
+    private async Task Cancelar()
+    {
+        await OnCancel.InvokeAsync();
+    }
+}

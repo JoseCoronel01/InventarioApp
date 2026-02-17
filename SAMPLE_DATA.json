@@ -1,0 +1,57 @@
+{
+  "ejemplo_materiales": [
+    {
+      "id": 1,
+      "nombre": "Acero A36",
+      "tipo": "Acero Estructural",
+      "cantidad": 100.5,
+      "precio": 45.50,
+      "precioTotal": 4582.75,
+      "fechaCreacion": "2024-01-15T10:30:00.000Z",
+      "fechaActualizacion": "2024-01-20T14:22:00.000Z"
+    },
+    {
+      "id": 2,
+      "nombre": "Aluminio 6061",
+      "tipo": "Aluminio",
+      "cantidad": 250.0,
+      "precio": 12.75,
+      "precioTotal": 3187.50,
+      "fechaCreacion": "2024-01-16T09:15:00.000Z",
+      "fechaActualizacion": "2024-01-19T11:45:00.000Z"
+    }
+  ],
+  "ejemplo_movimientos": [
+    {
+      "id": 1,
+      "materialId": 1,
+      "tipo": "Entrada",
+      "cantidad": 50.0,
+      "precio": 45.50,
+      "total": 2275.0,
+      "observaciones": "Compra a proveedor Metal Supply Inc.",
+      "fecha": "2024-01-15T10:30:00.000Z"
+    },
+    {
+      "id": 2,
+      "materialId": 1,
+      "tipo": "Salida",
+      "cantidad": 25.0,
+      "precio": 45.50,
+      "total": 1137.50,
+      "observaciones": "Uso en proyecto Edificio A",
+      "fecha": "2024-01-17T08:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "materialId": 2,
+      "tipo": "Entrada",
+      "cantidad": 250.0,
+      "precio": 12.75,
+      "total": 3187.50,
+      "observaciones": "Compra inicial",
+      "fecha": "2024-01-16T09:15:00.000Z"
+    }
+  ],
+  "notas": "Este archivo es un ejemplo de cómo se verán los datos en localStorage"
+}

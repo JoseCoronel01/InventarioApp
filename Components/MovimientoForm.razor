@@ -1,0 +1,96 @@
+@using InventarioApp.Models
+@using Microsoft.AspNetCore.Components.Forms
+
+<div class="card mb-4">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">Nuevo Movimiento</h5>
+    </div>
+    <div class="card-body">
+        <EditForm Model="Movimiento" OnValidSubmit="GuardarMovimiento">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="material" class="form-label">Material</label>
+                    <InputSelect id="material" class="form-control" @bind-Value="Movimiento.MaterialId">
+                        <option value="0">-- Seleccionar Material --</option>
+                        @foreach (var material in Materiales)
+                        {
+                            <option value="@material.Id">@material.Nombre (@material.Tipo)</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="@(() => Movimiento.MaterialId)" />
+                </div>
+                <div class="col-md-6">
+                    <label for="tipo" class="form-label">Tipo de Movimiento</label>
+                    <InputSelect id="tipo" class="form-control" @bind-Value="Movimiento.Tipo">
+                        <option value="@TipoMovimiento.Entrada">Entrada</option>
+                        <option value="@TipoMovimiento.Salida">Salida</option>
+                    </InputSelect>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="cantidad" class="form-label">Cantidad</label>
+                    <InputNumber id="cantidad" class="form-control" @bind-Value="Movimiento.Cantidad" />
+                    <ValidationMessage For="@(() => Movimiento.Cantidad)" />
+                </div>
+                <div class="col-md-6">
+                    <label for="precio" class="form-label">Precio Unitario</label>
+                    <InputNumber id="precio" class="form-control" @bind-Value="Movimiento.Precio" step="0.01" />
+                    <ValidationMessage For="@(() => Movimiento.Precio)" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Total</label>
+                    <div class="form-control" style="background-color: #f8f9fa;">
+                        <strong>@Movimiento.Total.ToString("C")</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="observaciones" class="form-label">Observaciones</label>
+                <InputTextArea id="observaciones" class="form-control" @bind-Value="Movimiento.Observaciones" rows="3"
+                    placeholder="Ej: Compra a proveedor X, Uso en proyecto Y"></InputTextArea>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success">
+                    <span class="oi oi-check"></span> Guardar Movimiento
+                </button>
+                <button type="button" class="btn btn-secondary" @onclick="Cancelar">
+                    <span class="oi oi-x"></span> Cancelar
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Movimiento Movimiento { get; set; } = new();
+
+    [Parameter]
+    public List<Material> Materiales { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<Movimiento> OnSave { get; set; }
+
+    [Parameter]
+    public EventCallback OnCancel { get; set; }
+
+    private async Task GuardarMovimiento()
+    {
+        await OnSave.InvokeAsync(Movimiento);
+    }
+
+    private async Task Cancelar()
+    {
+        await OnCancel.InvokeAsync();
+    }
+}

@@ -1,0 +1,182 @@
+@using InventarioApp.Models
+@using InventarioApp.Services
+@inject InventarioService InventarioService
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2>Gestión de Materiales</h2>
+        </div>
+        <div class="col-md-4 text-end">
+            <button class="btn btn-primary" @onclick="AbrirFormularioNuevo">
+                <span class="oi oi-plus"></span> Nuevo Material
+            </button>
+        </div>
+    </div>
+
+    @if (mostrarFormulario)
+    {
+        <MaterialForm Material="materialEditando" OnSave="GuardarMaterial" OnCancel="CerrarFormulario" />
+    }
+
+    @if (materiales == null)
+    {
+        <p><em>Cargando...</em></p>
+    }
+    else if (materiales.Count == 0)
+    {
+        <div class="alert alert-info">
+            No hay materiales registrados. <a href="#" @onclick:preventDefault @onclick="AbrirFormularioNuevo">Crear uno ahora</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Total</th>
+                        <th>Actualizado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var material in materiales)
+                    {
+                        <tr>
+                            <td>@material.Nombre</td>
+                            <td>@material.Tipo</td>
+                            <td>@material.Cantidad.ToString("F2")</td>
+                            <td>@material.Precio.ToString("C")</td>
+                            <td><strong>@material.PrecioTotal.ToString("C")</strong></td>
+                            <td>@material.FechaActualizacion.ToString("g")</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning" @onclick="() => EditarMaterial(material)">
+                                    <span class="oi oi-pencil"></span>
+                                </button>
+                                <button class="btn btn-sm btn-info" @onclick="() => VerMovimientos(material.Id)">
+                                    <span class="oi oi-list"></span>
+                                </button>
+                                <button class="btn btn-sm btn-danger" @onclick="() => ConfirmarEliminar(material)">
+                                    <span class="oi oi-trash"></span>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    @if (mostrarConfirmacion)
+    {
+        <div class="modal fade show d-block" style="background-color: rgba(0,0,0,0.5);">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirmar Eliminación</h5>
+                        <button type="button" class="btn-close" @onclick="CancelarEliminar"></button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Está seguro de que desea eliminar el material <strong>@materialAEliminar?.Nombre</strong>? 
+                        Esto también eliminará todos sus movimientos.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" @onclick="CancelarEliminar">Cancelar</button>
+                        <button type="button" class="btn btn-danger" @onclick="ConfirmarEliminacion">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<Material> materiales = new();
+    private bool mostrarFormulario = false;
+    private bool mostrarConfirmacion = false;
+    private Material? materialEditando;
+    private Material? materialAEliminar;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarMateriales();
+    }
+
+    private async Task CargarMateriales()
+    {
+        materiales = await InventarioService.GetMaterialesAsync();
+    }
+
+    private void AbrirFormularioNuevo()
+    {
+        materialEditando = new Material();
+        mostrarFormulario = true;
+    }
+
+    private void EditarMaterial(Material material)
+    {
+        materialEditando = new Material
+        {
+            Id = material.Id,
+            Nombre = material.Nombre,
+            Tipo = material.Tipo,
+            Cantidad = material.Cantidad,
+            Precio = material.Precio,
+            FechaCreacion = material.FechaCreacion
+        };
+        mostrarFormulario = true;
+    }
+
+    private async Task GuardarMaterial(Material material)
+    {
+        if (material.Id == 0)
+        {
+            await InventarioService.AddMaterialAsync(material);
+        }
+        else
+        {
+            await InventarioService.UpdateMaterialAsync(material);
+        }
+        CerrarFormulario();
+        await CargarMateriales();
+    }
+
+    private void CerrarFormulario()
+    {
+        mostrarFormulario = false;
+        materialEditando = null;
+    }
+
+    private void ConfirmarEliminar(Material material)
+    {
+        materialAEliminar = material;
+        mostrarConfirmacion = true;
+    }
+
+    private async Task ConfirmarEliminacion()
+    {
+        if (materialAEliminar != null)
+        {
+            await InventarioService.DeleteMaterialAsync(materialAEliminar.Id);
+            CancelarEliminar();
+            await CargarMateriales();
+        }
+    }
+
+    private void CancelarEliminar()
+    {
+        mostrarConfirmacion = false;
+        materialAEliminar = null;
+    }
+
+    private void VerMovimientos(int materialId)
+    {
+        // Navegar al componente de movimientos para este material
+        // Se implementa en la siguiente etapa
+    }
+}

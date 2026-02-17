@@ -1,0 +1,53 @@
+@if (HasError)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <h4 class="alert-heading">⚠️ Error en la Aplicación</h4>
+        <p>
+            <strong>Mensaje:</strong> Hubo un problema al cargar la aplicación.
+        </p>
+        <p>
+            <strong>Soluciones:</strong>
+            <ul>
+                <li>Intenta recargar la página (F5)</li>
+                <li>Limpia el caché del navegador (Ctrl+Shift+Del)</li>
+                <li>Abre las DevTools (F12) → Console para ver más detalles</li>
+            </ul>
+        </p>
+        <button class="btn btn-primary" @onclick="Reload">Recargar Página</button>
+        <button type="button" class="btn btn-secondary ms-2" @onclick="ClearCache">Limpiar Cache</button>
+        <button type="button" class="btn-close" @onclick="Dismiss"></button>
+    </div>
+}
+else
+{
+    @ChildContent
+}
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private bool HasError = false;
+
+    protected override void OnParametersSet()
+    {
+        // Los errores se capturan aquí
+    }
+
+    private void Reload()
+    {
+        // Recargar la página
+        // En un proyecto real, usarías JS Interop
+    }
+
+    private void ClearCache()
+    {
+        // Limpiar cache localStorage
+        // En un proyecto real, usarías JS Interop
+    }
+
+    private void Dismiss()
+    {
+        HasError = false;
+    }
+}
