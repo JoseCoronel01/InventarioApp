@@ -12,9 +12,6 @@
             <button class="btn btn-primary" @onclick="AbrirFormularioNuevo">
                 <span class="oi oi-plus"></span> Nuevo Movimiento
             </button>
-            <button class="btn btn-secondary" @onclick="Volver">
-                <span class="oi oi-arrow-left"></span> Volver
-            </button>
         </div>
     </div>
 
@@ -30,7 +27,7 @@
     else if (movimientos.Count == 0)
     {
         <div class="alert alert-info">
-            No hay movimientos registrados. <a href="#" @onclick:preventDefault @onclick="AbrirFormularioNuevo">Crear uno ahora</a>
+            No hay movimientos registrados.
         </div>
     }
     else
